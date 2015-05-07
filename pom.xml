@@ -57,7 +57,7 @@
     <module>openstack-glance</module>
     <module>openstack-heat</module>
     <module>openstack-neutron</module>
-    <module>openstack-swift</module>
+    <module>openstack-poppy</module>
     <module>openstack-marconi</module>
     <module>rackspace-autoscale</module>
     <module>rackspace-autoscale-uk</module>
@@ -65,10 +65,11 @@
     <module>rackspace-cloudqueues-us</module>
     <module>rackspace-cloudqueues-uk</module>
     <module>rackspace-cloudbigdata</module>
-    <module>rackspace-cloudbigdata-us</module>
-    <module>rackspace-cloudfiles</module>
-    <module>rackspace-cloudfiles-uk</module>
-    <module>rackspace-cloudfiles-us</module>
+    <module>rackspace-cloudbigdata-us</module>    
+    <module>rackspace-cloudnetworks-uk</module>
+    <module>rackspace-cloudnetworks-us</module>
+    <module>rackspace-cdn-uk</module>
+    <module>rackspace-cdn-us</module>
   </modules>
 
   <profiles>

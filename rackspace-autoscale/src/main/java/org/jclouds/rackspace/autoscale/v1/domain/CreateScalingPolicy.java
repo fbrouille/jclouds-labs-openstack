@@ -23,13 +23,10 @@ import java.beans.ConstructorProperties;
 import java.util.EnumSet;
 import java.util.Map;
 
-
-import com.google.common.base.MoreObjects;
-import com.google.common.base.MoreObjects.ToStringHelper;
-
 import org.jclouds.rackspace.autoscale.v1.features.GroupApi;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Objects.ToStringHelper;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 
@@ -160,7 +157,7 @@ public class CreateScalingPolicy implements Comparable<CreateScalingPolicy> {
    }
 
    protected ToStringHelper string() {
-      return MoreObjects.toStringHelper(this)
+      return Objects.toStringHelper(this)
             .add("name", name)
             .add("type", type)
             .add("cooldown", cooldown)
@@ -191,6 +188,7 @@ public class CreateScalingPolicy implements Comparable<CreateScalingPolicy> {
       protected Map<String, String> args;
 
       /**
+       * Required.
        * @param name The name of this ScalingPolicy.
        * @return The builder object.
        * @see CreateScalingPolicy#getName()
@@ -201,6 +199,9 @@ public class CreateScalingPolicy implements Comparable<CreateScalingPolicy> {
       }
 
       /**
+       * Required.
+       * The type of policy that will be executed for the current release, this value can be either webhook or schedule.
+       *
        * @param type The type for this ScalingPolicy.
        * @return The builder object.
        * @see ScalingPolicyType
@@ -212,6 +213,11 @@ public class CreateScalingPolicy implements Comparable<CreateScalingPolicy> {
       }
 
       /**
+       * Required.
+       * The cooldown period, in seconds, before this particular scaling policy can be executed again. The policy
+       * cooldown period does not affect the global scaling group cooldown. The minimum value for this parameter is
+       * 0 seconds, the maximum value is 86400 seconds (24 hrs).
+       *
        * @param cooldown The cooldown of this ScalingPolicy.
        * @return The builder object.
        * @see CreateScalingPolicy#getCooldown()
@@ -243,6 +249,7 @@ public class CreateScalingPolicy implements Comparable<CreateScalingPolicy> {
       }
 
       /**
+       * Optional.
        * @param cron This parameter specifies the recurring time when the policy will be executed as a cron entry.
        * For example, if this is parameter is set to "1 0 * * *",
        * the policy will be executed at one minute past midnight (00:01)
@@ -260,6 +267,7 @@ public class CreateScalingPolicy implements Comparable<CreateScalingPolicy> {
       }
 
       /**
+       * Optional.
        * @param at This parameter specifies the time at which this policy will be executed.
        * This property is mutually exclusive with the "cron" parameter.
        * You can either provide "cron" or "at" for a given policy, but not both.

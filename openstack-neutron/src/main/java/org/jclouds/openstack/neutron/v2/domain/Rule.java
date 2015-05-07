@@ -25,7 +25,6 @@ import javax.inject.Named;
 
 import org.jclouds.javax.annotation.Nullable;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 /**
@@ -196,7 +195,7 @@ public class Rule {
 
    @Override
    public String toString() {
-      return MoreObjects.toStringHelper(this)
+      return Objects.toStringHelper(this)
             .add("id", id)
             .add("tenantId", tenantId)
             .add("direction", direction)
@@ -368,8 +367,10 @@ public class Rule {
          super(rule);
          checkNotNull(this.getDirection(), "direction should not be null");
          checkNotNull(this.getSecurityGroupId(), "security group id should not be null");
-         checkArgument(this.getPortRangeMax() >= this.getPortRangeMin(),
-               "port range max should be greater than or equal to port range min");
+         if (this.getPortRangeMax() != null && this.getPortRangeMin() != null) {
+            checkArgument(this.getPortRangeMax() >= this.getPortRangeMin(),
+                  "port range max should be greater than or equal to port range min");
+         }
          checkArgument(this.getRemoteGroupId() == null || this.getRemoteIpPrefix() == null,
                "You can specify either remote_group_id or remote_ip_prefix in the request body.");
       }

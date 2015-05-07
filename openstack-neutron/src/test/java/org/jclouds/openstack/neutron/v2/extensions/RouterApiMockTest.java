@@ -60,7 +60,10 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
          RouterApi api = neutronApi.getRouterApi("RegionOne").get();
 
          Router.CreateRouter createRouter = Router.createBuilder().name("another_router").adminStateUp(Boolean.TRUE)
-               .externalGatewayInfo(ExternalGatewayInfo.builder().networkId("8ca37218-28ff-41cb-9b10-039601ea7e6b").build())
+               .externalGatewayInfo(ExternalGatewayInfo.builder()
+                     .networkId("8ca37218-28ff-41cb-9b10-039601ea7e6b")
+                     .enableSnat(true)
+                     .build())
                .build();
 
          Router router = api.create(createRouter);
@@ -70,8 +73,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "POST", "/v2.0/routers", "/router_create_request.json");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "POST", uriApiVersion + "/routers", "/router_create_request.json");
 
          /*
           * Check response
@@ -79,6 +82,7 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
          assertNotNull(router);
          assertEquals(router.getName(), "another_router");
          assertEquals(router.getExternalGatewayInfo().getNetworkId(), "8ca37218-28ff-41cb-9b10-039601ea7e6b");
+         assertEquals(router.getExternalGatewayInfo().getEnableSnat().booleanValue(), true);
          assertEquals(router.getStatus(), NetworkStatus.ACTIVE);
          assertEquals(router.getAdminStateUp(), Boolean.TRUE);
          assertEquals(router.getId(), "8604a0de-7f6b-409a-a47c-a1cc7bc77b2e");
@@ -129,8 +133,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "GET", "/v2.0/routers?limit=2&marker=abcdefg");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "GET", uriApiVersion + "/routers?limit=2&marker=abcdefg");
 
          /*
           * Check response
@@ -160,8 +164,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "GET", "/v2.0/routers?limit=2&marker=abcdefg");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "GET", uriApiVersion + "/routers?limit=2&marker=abcdefg");
 
          /*
           * Check response
@@ -192,9 +196,9 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 4);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "GET", "/v2.0/routers");
-         assertRequest(server.takeRequest(), "GET", "/v2.0/routers?marker=71c1e68c-171a-4aa2-aca5-50ea153a3718");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "GET", uriApiVersion + "/routers");
+         assertRequest(server.takeRequest(), "GET", uriApiVersion + "/routers?marker=71c1e68c-171a-4aa2-aca5-50ea153a3718");
 
          /*
           * Check response
@@ -226,8 +230,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "GET", "/v2.0/routers");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "GET", uriApiVersion + "/routers");
 
          /*
           * Check response
@@ -257,8 +261,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "GET", "/v2.0/routers/12345");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "GET", uriApiVersion + "/routers/12345");
 
          /*
           * Check response
@@ -293,8 +297,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "GET", "/v2.0/routers/12345");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "GET", uriApiVersion + "/routers/12345");
 
          /*
           * Check response
@@ -328,8 +332,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "PUT", "/v2.0/routers/12345", "/router_update_request.json");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "PUT", uriApiVersion + "/routers/12345", "/router_update_request.json");
 
          /*
           * Check response
@@ -369,8 +373,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "PUT", "/v2.0/routers/12345", "/router_update_request.json");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "PUT", uriApiVersion + "/routers/12345", "/router_update_request.json");
 
          /*
           * Check response
@@ -399,8 +403,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "DELETE", "/v2.0/routers/12345");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "DELETE", uriApiVersion + "/routers/12345");
 
          /*
           * Check response
@@ -429,8 +433,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "DELETE", "/v2.0/routers/12345");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "DELETE", uriApiVersion + "/routers/12345");
 
          /*
           * Check response
@@ -458,8 +462,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           * Check request
           */
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "PUT", "/v2.0/routers/12345/add_router_interface", "/router_add_interface_request.json");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "PUT", uriApiVersion + "/routers/12345/add_router_interface", "/router_add_interface_request.json");
 
          /*
           * Check response
@@ -490,8 +494,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "PUT", "/v2.0/routers/12345/add_router_interface", "/router_add_interface_request.json");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "PUT", uriApiVersion + "/routers/12345/add_router_interface", "/router_add_interface_request.json");
 
          /*
           * Check response
@@ -520,8 +524,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "PUT", "/v2.0/routers/12345/add_router_interface", "/router_add_interface_port_request.json");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "PUT", uriApiVersion + "/routers/12345/add_router_interface", "/router_add_interface_port_request.json");
 
          /*
           * Check response
@@ -552,8 +556,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "PUT", "/v2.0/routers/12345/add_router_interface", "/router_add_interface_port_request.json");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "PUT", uriApiVersion + "/routers/12345/add_router_interface", "/router_add_interface_port_request.json");
 
          /*
           * Check response
@@ -582,8 +586,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "PUT", "/v2.0/routers/12345/remove_router_interface", "/router_remove_interface_subnet_request.json");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "PUT", uriApiVersion + "/routers/12345/remove_router_interface", "/router_remove_interface_subnet_request.json");
 
          /*
           * Check response
@@ -612,8 +616,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "PUT", "/v2.0/routers/12345/remove_router_interface", "/router_remove_interface_subnet_request.json");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "PUT", uriApiVersion + "/routers/12345/remove_router_interface", "/router_remove_interface_subnet_request.json");
 
          /*
           * Check response
@@ -642,8 +646,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "PUT", "/v2.0/routers/12345/remove_router_interface", "/router_remove_interface_port_request.json");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "PUT", uriApiVersion + "/routers/12345/remove_router_interface", "/router_remove_interface_port_request.json");
 
          /*
           * Check response
@@ -672,8 +676,8 @@ public class RouterApiMockTest extends BaseNeutronApiMockTest {
           */
          assertEquals(server.getRequestCount(), 3);
          assertAuthentication(server);
-         assertExtensions(server, "/v2.0");
-         assertRequest(server.takeRequest(), "PUT", "/v2.0/routers/12345/remove_router_interface", "/router_remove_interface_port_request.json");
+         assertExtensions(server, uriApiVersion + "");
+         assertRequest(server.takeRequest(), "PUT", uriApiVersion + "/routers/12345/remove_router_interface", "/router_remove_interface_port_request.json");
 
          /*
           * Check response

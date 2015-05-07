@@ -24,8 +24,8 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.jclouds.logging.Logger;
 import org.jclouds.openstack.neutron.v2.domain.Network;
@@ -54,17 +54,16 @@ import org.testng.annotations.Test;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import com.google.common.util.concurrent.Uninterruptibles;
 
-/**
- * Tests parsing and Guice wiring of RouterApi
- */
 @Test(groups = "live", testName = "LBaaSApiLiveTest")
 public class LBaaSApiLiveTest extends BaseNeutronApiLiveTest {
 
    private Logger logger = getLoggingModule().createLoggerFactory().getLogger(LBaaSApiLiveTest.class.getName());
 
-   private Map<String, Network> networks;
-   private Map<String, Subnet> subnets;
+   private Map<String, Network> networks = Maps.newLinkedHashMap();
+   private Map<String, Subnet> subnets = Maps.newLinkedHashMap();
 
    public void testLBaaSPresence() throws Exception {
       for (String region : api.getConfiguredRegions()) {
@@ -84,8 +83,6 @@ public class LBaaSApiLiveTest extends BaseNeutronApiLiveTest {
 
    @BeforeClass
    public void createSubnets() {
-      networks = new HashMap<>();
-      subnets = new HashMap<>();
       for (String region : api.getConfiguredRegions()) {
          Optional<LBaaSApi> lbaasApiExtension = api.getLBaaSApi(region);
          if (!lbaasApiExtension.isPresent()) {
@@ -122,8 +119,6 @@ public class LBaaSApiLiveTest extends BaseNeutronApiLiveTest {
             }
          }
       }
-      networks = null;
-      subnets = null;
    }
 
    public void testCreateUpdateAndDeletePool() {
@@ -220,7 +215,7 @@ public class LBaaSApiLiveTest extends BaseNeutronApiLiveTest {
       }
    }
 
-   public void testCreateUpdateAndDeleteMember() {
+   public void testCreateUpdateAndDeleteMember() throws InterruptedException {
       for (String region : api.getConfiguredRegions()) {
          Optional<LBaaSApi> lbaasApiExtension = api.getLBaaSApi(region);
          if (!lbaasApiExtension.isPresent()) {
@@ -259,6 +254,8 @@ public class LBaaSApiLiveTest extends BaseNeutronApiLiveTest {
             assertNull(member.getStatusDescription());
 
             // List and Get
+            Thread.sleep(5000);
+            Uninterruptibles.sleepUninterruptibly(5, TimeUnit.SECONDS);
             Members members = lbaasApi.listMembers(PaginationOptions.Builder.queryParameters(ImmutableMap.of("tenant_id", subnet.getTenantId()).asMultimap()));
             assertNotNull(members);
             assertFalse(members.isEmpty());

@@ -38,18 +38,13 @@
     <!-- keystone endpoint -->
     <test.openstack-neutron.endpoint>http://localhost:5000/v2.0/</test.openstack-neutron.endpoint>
     <!-- keystone version -->
-    <test.openstack-neutron.api-version>2.0</test.openstack-neutron.api-version>
+    <test.openstack-neutron.api-version>v2.0</test.openstack-neutron.api-version>
     <test.openstack-neutron.build-version />
     <test.openstack-neutron.identity>FIXME_IDENTITY</test.openstack-neutron.identity>
     <test.openstack-neutron.credential>FIXME_CREDENTIALS</test.openstack-neutron.credential>
     <test.jclouds.keystone.credential-type>passwordCredentials</test.jclouds.keystone.credential-type>
-    <jclouds.osgi.export>org.jclouds.openstack.neutron.v2_0*;version="${project.version}"</jclouds.osgi.export>
-    <jclouds.osgi.import>
-      org.jclouds.rest.internal;version="${jclouds.version}",
-      org.jclouds.labs*;version="${project.version}",
-      org.jclouds*;version="${jclouds.version}",
-      *
-    </jclouds.osgi.import>
+    <jclouds.osgi.export>org.jclouds.openstack.neutron.v2*;version="${project.version}"</jclouds.osgi.export>
+    <jclouds.osgi.import>org.jclouds*;version="${project.version}",*</jclouds.osgi.import>
   </properties>
 
   <repositories>
@@ -75,6 +70,11 @@
       <groupId>org.apache.jclouds</groupId>
       <artifactId>jclouds-core</artifactId>
       <version>${project.parent.version}</version>
+    </dependency>
+    <!-- for the extension namespaces -->
+    <dependency>
+      <groupId>com.google.inject.extensions</groupId>
+      <artifactId>guice-multibindings</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.jclouds</groupId>
@@ -105,6 +105,11 @@
       <groupId>com.squareup.okhttp</groupId>
       <artifactId>mockwebserver</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.auto.service</groupId>
+      <artifactId>auto-service</artifactId>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 
