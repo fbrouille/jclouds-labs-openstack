@@ -22,13 +22,14 @@
   <parent>
     <groupId>org.apache.jclouds</groupId>
     <artifactId>jclouds-project</artifactId>
-    <version>1.8.1-SNAPSHOT</version>
+    <version>1.8.2-SNAPSHOT</version>
+    <relativePath />
   </parent>
 
   <!-- TODO: when out of labs, switch to org.jclouds.provider -->
   <groupId>org.apache.jclouds.labs</groupId>
   <artifactId>rackspace-cloudfiles-uk</artifactId>
-  <version>1.8.1-SNAPSHOT</version>
+  <version>1.8.2-SNAPSHOT</version>
   <name>jclouds Rackspace Cloud Files UK provider</name>
   <description>OpenStack Object Storage implementation targeted to Rackspace Cloud Files UK</description>
   <packaging>bundle</packaging>
@@ -41,12 +42,7 @@
     <test.rackspace-cloudfiles-uk.identity>${test.rackspace-uk.identity}</test.rackspace-cloudfiles-uk.identity>
     <test.rackspace-cloudfiles-uk.credential>${test.rackspace-uk.credential}</test.rackspace-cloudfiles-uk.credential>
     <jclouds.osgi.export>org.jclouds.rackspace.cloudfiles.uk*;version="${project.version}"</jclouds.osgi.export>
-    <jclouds.osgi.import>
-      org.jclouds.rest.internal;version="${jclouds.version}",
-      org.jclouds.labs*;version="${project.version}",
-      org.jclouds*;version="${jclouds.version}",
-      *
-    </jclouds.osgi.import>
+    <jclouds.osgi.import>org.jclouds*;version="${project.version}",*</jclouds.osgi.import>
   </properties>
 
   <repositories>
@@ -64,14 +60,14 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.apache.jclouds.labs</groupId>
+      <groupId>org.apache.jclouds.api</groupId>
       <artifactId>openstack-swift</artifactId>
       <version>${project.parent.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.apache.jclouds.labs</groupId>
+      <groupId>org.apache.jclouds.api</groupId>
       <artifactId>openstack-swift</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
@@ -87,7 +83,7 @@
       <artifactId>rackspace-cloudfiles</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
-    <dependency>    
+    <dependency>
       <groupId>org.apache.jclouds.api</groupId>
       <artifactId>openstack-keystone</artifactId>
       <version>${project.parent.version}</version>
@@ -130,9 +126,14 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>org.apache.jclouds.api</groupId>
-    	<artifactId>rackspace-cloudidentity</artifactId>
-    	<version>${project.parent.version}</version>
+      <groupId>org.apache.jclouds.api</groupId>
+      <artifactId>rackspace-cloudidentity</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.auto.service</groupId>
+      <artifactId>auto-service</artifactId>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 
@@ -152,10 +153,9 @@
                   <goal>test</goal>
                 </goals>
                 <configuration>
-                  <forkCount>5</forkCount>
-                  <reuseForks>true</reuseForks>
-                  <parallel>classes</parallel>
                   <systemPropertyVariables>
+                    <jclouds.blobstore.httpstream.url>${jclouds.blobstore.httpstream.url}</jclouds.blobstore.httpstream.url>
+                    <jclouds.blobstore.httpstream.md5>${jclouds.blobstore.httpstream.md5}</jclouds.blobstore.httpstream.md5>
                     <test.rackspace-cloudfiles-uk.endpoint>${test.rackspace-cloudfiles-uk.endpoint}</test.rackspace-cloudfiles-uk.endpoint>
                     <test.rackspace-cloudfiles-uk.api-version>${test.rackspace-cloudfiles-uk.api-version}</test.rackspace-cloudfiles-uk.api-version>
                     <test.rackspace-cloudfiles-uk.build-version>${test.rackspace-cloudfiles-uk.build-version}</test.rackspace-cloudfiles-uk.build-version>

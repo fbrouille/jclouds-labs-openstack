@@ -23,12 +23,12 @@
   <parent>
     <groupId>org.apache.jclouds</groupId>
     <artifactId>jclouds-project</artifactId>
-    <version>1.8.1-SNAPSHOT</version>
+    <version>1.8.2-SNAPSHOT</version>
   </parent>
   
   <groupId>org.apache.jclouds.labs</groupId>
   <artifactId>jclouds-labs-openstack</artifactId>
-  <version>1.8.1-SNAPSHOT</version>
+  <version>1.8.2-SNAPSHOT</version>
   <name>Apache jclouds labs openstack</name>
   <packaging>pom</packaging>
 
@@ -52,10 +52,25 @@
     </repository>
   </repositories>
 
+
+  <!-- For modernizer, which depends on jclouds-resources snapshot. -->
+  <pluginRepositories>
+    <pluginRepository>
+      <id>apache-snapshots</id>
+      <url>https://repository.apache.org/content/repositories/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+
   <modules>
     <module>openstack-glance</module>
+    <module>openstack-heat</module>
     <module>openstack-neutron</module>
-    <module>openstack-swift</module>
     <module>openstack-marconi</module>
     <module>rackspace-autoscale</module>
     <module>rackspace-autoscale-uk</module>

@@ -22,13 +22,14 @@
   <parent>
     <groupId>org.apache.jclouds</groupId>
     <artifactId>jclouds-project</artifactId>
-    <version>1.8.1-SNAPSHOT</version>
+    <version>1.8.2-SNAPSHOT</version>
+    <relativePath />
   </parent>
 
   <!-- TODO: when out of labs, switch to org.jclouds.api -->
   <groupId>org.apache.jclouds.labs</groupId>
   <artifactId>rackspace-cloudfiles</artifactId>
-  <version>1.8.1-SNAPSHOT</version>
+  <version>1.8.2-SNAPSHOT</version>
   <name>jclouds rackspace-cloudfiles api</name>
   <description>jclouds components to access Rackspace Cloud Files</description>
   <packaging>bundle</packaging>
@@ -41,7 +42,7 @@
     <test.rackspace-cloudfiles.identity>FIXME_IDENTITY</test.rackspace-cloudfiles.identity>
     <test.rackspace-cloudfiles.credential>FIXME_CREDENTIALS</test.rackspace-cloudfiles.credential>
     <jclouds.osgi.export>org.jclouds.rackspace.cloudfiles.v1*;version="${project.version}"</jclouds.osgi.export>
-    <jclouds.osgi.import>org.jclouds*;version="${jclouds.version}",*</jclouds.osgi.import>
+    <jclouds.osgi.import>org.jclouds*;version="${project.version}",*</jclouds.osgi.import>
   </properties>
 
   <repositories>
@@ -59,12 +60,12 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.apache.jclouds.labs</groupId>
+      <groupId>org.apache.jclouds.api</groupId>
       <artifactId>openstack-swift</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.jclouds.labs</groupId>
+      <groupId>org.apache.jclouds.api</groupId>
       <artifactId>openstack-swift</artifactId>
       <version>${project.parent.version}</version>
       <type>test-jar</type>
@@ -129,6 +130,11 @@
       <artifactId>mockwebserver</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.google.auto.service</groupId>
+      <artifactId>auto-service</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <profiles>
@@ -147,10 +153,9 @@
                   <goal>test</goal>
                 </goals>
                 <configuration>
-                  <forkCount>5</forkCount>
-                  <reuseForks>true</reuseForks>
-                  <parallel>classes</parallel>
                   <systemPropertyVariables>
+                    <jclouds.blobstore.httpstream.url>${jclouds.blobstore.httpstream.url}</jclouds.blobstore.httpstream.url>
+                    <jclouds.blobstore.httpstream.md5>${jclouds.blobstore.httpstream.md5}</jclouds.blobstore.httpstream.md5>
                     <test.rackspace-cloudfiles.endpoint>${test.rackspace-cloudfiles.endpoint}</test.rackspace-cloudfiles.endpoint>
                     <test.rackspace-cloudfiles.api-version>${test.rackspace-cloudfiles.api-version}</test.rackspace-cloudfiles.api-version>
                     <test.rackspace-cloudfiles.build-version>${test.rackspace-cloudfiles.build-version}</test.rackspace-cloudfiles.build-version>
